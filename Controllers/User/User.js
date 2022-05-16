@@ -1,5 +1,5 @@
 const User = require('../../Models/User');
-const { CreatToken, pHash } = require('../Auth/auth');
+const { CreatToken, pHash, verifyToken } = require('../Auth/auth');
 
 
 
@@ -11,23 +11,23 @@ const LogIn= async(req,res)=>{
         res.send({success:false,message:'password is required'})
     }
 
-    res.send({t:true})
-    // try{
-    //     const user = await User.findOne({'email':req.body.email});
-    //     //Password Is In Hash form in database
-    //     if(user.password===pHash(req.body.password)){
-    //         try{
-    //             const token = await CreatToken(user)
-    //             res.send({success:true,message:'User Successfully LogIned',token:token})
-    //         }catch(err){
-    //             res.send({success:false,message:'server issue',error:'Error Code : User-C-L-21'})
-    //         }
-    //     }else{
-    //         res.send({success:false,message:'incorrect password'})
-    //     }
-    // }catch(err){
-    //     res.send({success:false,message:'User not Found'})
-    // }
+    // res.send({t:true})
+    try{
+        const user = await User.findOne({'email':req.body.email});
+        //Password Is In Hash form in database
+        if(user.password===pHash(req.body.password)){
+            try{
+                const token = await CreatToken(user)
+                res.send({success:true,message:'User Successfully LogIned',token:token})
+            }catch(err){
+                res.send({success:false,message:'server issue',error:'Error Code : User-C-L-21'})
+            }
+        }else{
+            res.send({success:false,message:'incorrect password'})
+        }
+    }catch(err){
+        res.send({success:false,message:'User not Found'})
+    }
 }
 
 
@@ -58,21 +58,22 @@ const Register = async(req,res)=>{
 }
 
 
-const EmailVerfication =(req,res)=>{
+const EmailVerficationCode =(req,res)=>{
     if(req.body.email==''||req.body.email==undefined){
         res.send({success:false,message:'email or number is required'})
     }
    try{
+    const code = Math.floor((Math.random() * 4000) + 9999)
     const token =await CreatToken({
         email:req.body.email,
-        code:Math.floor((Math.random() * 4000) + 9999)
+        code
     })
     if('email'=='email'){
-        //send Email
+        //send Email (code)
         res.send({success:true,message:'please check your Email',token})
     }
-    if('number'=='number'){
-        //send Message
+    else if('number'=='number'){
+        //send Message (code)
         res.send({success:true,message:'please check your Inbox',token})
     }
     }catch(err){
@@ -81,8 +82,35 @@ const EmailVerfication =(req,res)=>{
                 
 }
 
+const verifyCode =async(req,res)=>{
+    if(req.body.token==''||req.body.token==undefined ){
+        res.send({success:false,message:'token is required'})
+    }
+    if(req.body.code==''||req.body.code==undefined){
+        res.send({success:false,message:'verification code is required'})
+    }
+    try{
+        const tokenData = await verifyToken(req.body.token)
+        try{
+            //Check user is found or Not
+              await  User.updateOne({email:tokenData.email},{$set:{
+                    verify:true
+                }})
+            const user =await User.findOne({email:tokenData.email})
+            const token =await CreatToken(user)
+            res.send({success:true,message:'Verification successfully completed',token})
+        }catch(err){
+            //if user not Found
+            res.send({success:false,message:'user not Found'})
+        }
+    }catch(err){
+        res.send({success:false,message:'verification code is Expaired'})
+    }
+    
+}
+
 module.exports ={
     LogIn,
     Register,
-    EmailVerfication
+    EmailVerficationCode
 }
