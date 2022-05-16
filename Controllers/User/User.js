@@ -15,7 +15,7 @@ const LogIn = async (req, res) => {
 
 
     try {
-        const user = await User.findOne({ 'email': req.body.email });
+        const user = await User.findOne({ email: req.body.email });
         //Password Is In Hash form in database
         if (user.password === pHash(req.body.password)) {
             try {
