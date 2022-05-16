@@ -1,1 +1,4 @@
-export const jwtKey = 'jewhfk wjekrj'
+const jwtKey = 'jewhfk wjekrj'
+
+
+module.exports = jwtKey

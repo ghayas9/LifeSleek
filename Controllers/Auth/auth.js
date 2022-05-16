@@ -51,10 +51,14 @@ const checkPasswordIsChange =(tokenPassword,userPassword,res)=>{
    }
 }
 
+const pHash = (password)=>{
+    return password
+}
 
 module.exports ={
     CreatToken,
     verify,
     verifyToken,
     checkPasswordIsChange,
+    pHash
 }
