@@ -1,5 +1,5 @@
-const User = require('../../Models/User');
-const { CreatToken, pHash, verifyToken } = require('../Auth/auth');
+const User = require('../Models/User');
+const { CreatToken, pHash, verifyToken } = require('./auth');
 
 
 

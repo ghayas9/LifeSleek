@@ -1,4 +1,4 @@
-const { jwtKey } =require("../../Config/JwtConfig");
+const { jwtKey } =require("../Config/JwtConfig");
 const jwt = require('jsonwebtoken')
 // const jwtConfiq = require('../Config/jwtConfig')
 // const JwtKey = jwtConfiq.secret
