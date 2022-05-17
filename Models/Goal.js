@@ -18,22 +18,29 @@ const Goal = new mongoose.Schema({
         type: String
     },
     date: {
-        type:mongoose.Types.ObjectId,
-        ref:'Dates'
+        type: mongoose.Types.ObjectId,
+        ref: 'Dates'
     },
     reminder: {
         type: mongoose.Types.ObjectId,
         ref: 'Reminders',
-        default:null
+        default: null
     },
-    linkByHabit:{
-        type:mongoose.Types.ObjectId,
-        ref:'Habits',
-        default:null
+    linkByHabit: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Habits',
+        default: null
     },
     images: {
-        type:Array,
+        type: Array,
         default: []
+    },
+    milestones: {
+        type: [{
+            type: mongoose.Types.ObjectId,
+            ref: 'Milestones'
+        }],
+        default: null
     }
 }, { timestamps: true })
 

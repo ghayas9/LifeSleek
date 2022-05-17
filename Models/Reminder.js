@@ -10,6 +10,10 @@ const RemSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'Dates'
     },
+    after:{
+        type:Number,
+        default:1
+    }
 
 }, { timestamps: true })
 
