@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 
 
 const CataSchema = new mongoose.Schema({
-    _id: mongoose.Types.ObjectId,
+    _id: {
+        type: mongoose.Types.ObjectId,
+        default: mongoose.Types.ObjectId()
+    },
     iconImage: {
         type: String
     },

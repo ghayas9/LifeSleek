@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const Medicine = new mongoose.Schema({
-    _id: mongoose.Types.ObjectId,
+    _id: {
+        type: mongoose.Types.ObjectId,
+        default: mongoose.Types.ObjectId()
+    },
     user: {
         type: mongoose.Types.ObjectId,
         ref: 'users'
@@ -21,5 +24,5 @@ const Medicine = new mongoose.Schema({
         }],
         default: null
     }
-},{timestamps:true})
+}, { timestamps: true })
 module.exports = mongoose.model('medicines', Medicine)

@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
     _id: {
-        type:mongoose.Types.ObjectId,
-        default:mongoose.Types.ObjectId()
+        type: mongoose.Types.ObjectId,
+        default: mongoose.Types.ObjectId()
     },
     profileImg: {
         type: String,
@@ -34,7 +34,6 @@ const UserSchema = new mongoose.Schema({
                 ref: 'goals',
             }
         ],
-        default: []
     },
     reminders: {
         type: [
@@ -43,7 +42,12 @@ const UserSchema = new mongoose.Schema({
                 ref: 'reminders'
             }
         ],
-        default: []
+    },
+    habits: {
+        type: [{
+            type: mongoose.Types.ObjectId,
+            ref: 'habits',
+        }]
     }
 }, { timestamps: true })
 

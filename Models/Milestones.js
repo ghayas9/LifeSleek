@@ -1,21 +1,24 @@
 const mongoose = require('mongoose')
 
 const Milestones = new mongoose.Schema({
-    _id:mongoose.Types.ObjectId,
+    _id: {
+        type: mongoose.Types.ObjectId,
+        default: mongoose.Types.ObjectId()
+    },
     user: {
         type: mongoose.type.ObjectId,
         ref: 'users'
     },
-    title:{
-        type:String
+    title: {
+        type: String
     },
-    desc:{
-        type:String
+    desc: {
+        type: String
     },
-    target:{
-        type:String
+    target: {
+        type: String
     }
-},{timestamps:true})
+}, { timestamps: true })
 
 
-module.exports = mongoose.model('milestones',Milestones)
+module.exports = mongoose.model('milestones', Milestones)

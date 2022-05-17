@@ -3,7 +3,10 @@ const mongoose = require('mongoose')
 
 const Goal = new mongoose.Schema({
 
-    _id: mongoose.Types.ObjectId,
+    _id: {
+        type: mongoose.Types.ObjectId,
+        default: mongoose.Types.ObjectId()
+    },
     user: {
         type: mongoose.type.ObjectId,
         ref: 'users'

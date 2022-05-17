@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
 const Habit = new mongoose.Schema({
-    _id: mongoose.Types.ObjectId,
+    _id: {
+        type: mongoose.Types.ObjectId,
+        default: mongoose.Types.ObjectId()
+    },
     title: {
         type: String,
     },
@@ -29,4 +32,4 @@ const Habit = new mongoose.Schema({
 
 }, { timestamps: true })
 
-module.exports = mongoose.model('Habits', Habit)
+module.exports = mongoose.model('habits', Habit)

@@ -1,17 +1,20 @@
-const mongoose= require('mongoose')
+const mongoose = require('mongoose')
 
-const dateAndTime =new mongoose.Schema({
-    _id:mongoose.Types.ObjectId,
-    title:{
-        type:String,
-        default:''
+const dateAndTime = new mongoose.Schema({
+    _id: {
+        type: mongoose.Types.ObjectId,
+        default: mongoose.Types.ObjectId()
     },
-    from:{
-        type:Date
+    title: {
+        type: String,
+        default: ''
     },
-    to:{
-        type:Date
+    from: {
+        type: Date
+    },
+    to: {
+        type: Date
     }
-},{timestamps:true})
+}, { timestamps: true })
 
-module.exports = mongoose.model('dates',dateAndTime)
+module.exports = mongoose.model('dates', dateAndTime)

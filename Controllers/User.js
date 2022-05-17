@@ -3,6 +3,12 @@ const { CreatToken, pHash, verifyToken } = require('./auth');
 
 
 
+const RemovePassword= (data)=>{
+    data = data.toObject()
+    delete data.password
+    return data
+}
+
 
 const LogIn = async (req, res) => {
     //***********Requaird Field*************//
@@ -18,13 +24,19 @@ const LogIn = async (req, res) => {
     else {
         try {
             const user = await User.findOne({ email: req.body.email });
+            //if User Is not verify
+            // if(user.verify){
+            //     res.send({ success: false, message: 'User is Not Verify ' })
+            // }
+            //if User Is not verify
+
             //Password Is In Hash form in database
             if (user.password === pHash(req.body.password)) {
-                try {
-                    const token = await CreatToken(user.toObject())
+                try { 
+                    const data = RemovePassword(user)
+                    const token = await CreatToken(data)
                     res.send({ success: true, message: 'User Successfully LogIned', token: token })
                 } catch (err) {
-                    console.log(err)
                     res.send({ success: false, message: 'server issue', error: 'Error Code : User-C-L-21' })
                 }
             } else {
@@ -57,20 +69,20 @@ const Register = async (req, res) => {
         newUser.name = req.body.name
         newUser.email = req.body.email
         newUser.password = pHash(req.body.password)
-        try{
-            const email = req.body.email
-            const user = await User.findOne({email})
-            res.send({ success: false, message: 'This Email or Number Is Already Registered'})
-        }catch{
         try {
-            const user = await newUser.save();
-            res.send({ success: true, message: 'Registered successfully', email: user.email })
+            const email = req.body.email
+            const user = await User.findOne({ email })
+            res.send({ success: false, message: 'This Email or Number Is Already Registered' })
+        } catch {
+            try {
+                const user = await newUser.save();
+                res.send({ success: true, message: 'Registered successfully', email: user.email })
 
-        } catch (err) {
-            console.log(err)
-            res.send({ success: false, message: 'Server Issue', error: 'Error Code: U-C-R-56', err})
+            } catch (err) {
+                console.log(err)
+                res.send({ success: false, message: 'Server Issue', error: 'Error Code: U-C-R-56', err })
+            }
         }
-    }
     }
 
 }
@@ -134,6 +146,11 @@ const verifyCode = async (req, res) => {
     } catch (err) {
         res.send({ success: false, message: 'verification code is Expaired' })
     }
+
+}
+
+
+const LogInWithGoogle =async(req,res)=>{
 
 }
 

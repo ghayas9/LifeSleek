@@ -1,15 +1,15 @@
-const express=require('express');
-const app =express();
-const bodyParser=require('body-parser');
-const mongoose =require('mongoose');
-const cors =require('cors');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const cors = require('cors');
 const multer = require("multer");
 const path = require("path");
 require('dotenv').config()
-const PORT = process.env.PORT ||9000
+const PORT = process.env.PORT || 9000
 
 
-app.use(cors({origin:'*'}));
+app.use(cors({ origin: '*' }));
 app.use(bodyParser.json())
 // app.use();
 // for parsing application/xwww-
@@ -22,13 +22,13 @@ mongoose.connect(
         useUnifiedTopology: true
     }
 ).then(() => { console.warn('connected') }).
-catch(()=>{console.warn('not connected')});
+    catch(() => { console.warn('not connected') });
 
 
 const UserRouter = require('./Router/User')
 
-app.use('/user',UserRouter)
+app.use('/user', UserRouter)
 
-app.listen(PORT,()=>{
+app.listen(PORT, () => {
     console.log(`localhost:${PORT} `)
 })
