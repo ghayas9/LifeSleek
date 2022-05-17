@@ -9,10 +9,11 @@ require('dotenv').config()
 const PORT = process.env.PORT ||9000
 
 
-app.use(cors({origin:'*'}),bodyParser.json());
+app.use(cors({origin:'*'}));
+app.use(bodyParser.json())
 // app.use();
 // for parsing application/xwww-
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(
     `mongodb+srv://${process.env.DB_PASSWORD}:ghayas@cluster0.knli1.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,

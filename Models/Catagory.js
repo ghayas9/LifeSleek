@@ -12,4 +12,4 @@ const CataSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
-module.exports = mongoose.model('Catagories', CataSchema)
+module.exports = mongoose.model('catagories', CataSchema)

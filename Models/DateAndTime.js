@@ -14,4 +14,4 @@ const dateAndTime =new mongoose.Schema({
     }
 },{timestamps:true})
 
-module.exports = mongoose.model('Dates',dateAndTime)
+module.exports = mongoose.model('dates',dateAndTime)

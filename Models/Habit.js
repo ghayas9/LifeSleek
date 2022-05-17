@@ -10,16 +10,16 @@ const Habit = new mongoose.Schema({
     },
     date: {
         type: mongoose.Types.ObjectId,
-        ref: 'Dates'
+        ref: 'dates'
     },
     linkByGoal: {
         type: mongoose.Types.ObjectId,
-        ref: 'Goals',
+        ref: 'goals',
         default: null
     },
     reminder: {
         type: mongoose.Types.ObjectId,
-        ref: 'Reminders',
+        ref: 'reminders',
         default: null
     },
     images: {

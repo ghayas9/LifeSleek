@@ -3,7 +3,7 @@ const Medicine = new mongoose.Schema({
     _id: mongoose.Types.ObjectId,
     user: {
         type: mongoose.Types.ObjectId,
-        ref: 'Users'
+        ref: 'users'
     },
     name: {
         type: String
@@ -17,9 +17,9 @@ const Medicine = new mongoose.Schema({
     reminders: {
         type: [{
             type: mongoose.Types.ObjectId,
-            ref: 'Reminders'
+            ref: 'reminders'
         }],
         default: null
     }
 },{timestamps:true})
-module.exports = mongoose.model('Medicines', Medicine)
+module.exports = mongoose.model('medicines', Medicine)

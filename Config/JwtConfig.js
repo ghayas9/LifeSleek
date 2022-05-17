@@ -1,4 +1,4 @@
-const jwtKey = 'jewhfk wjekrj'
+const jwtKey = 'dskjflksdfj'
 
 
-module.exports = jwtKey
+module.exports = {jwtKey}

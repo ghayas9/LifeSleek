@@ -6,7 +6,7 @@ const Goal = new mongoose.Schema({
     _id: mongoose.Types.ObjectId,
     user: {
         type: mongoose.type.ObjectId,
-        ref: 'Users'
+        ref: 'users'
     },
     title: {
         type: String
@@ -19,16 +19,16 @@ const Goal = new mongoose.Schema({
     },
     date: {
         type: mongoose.Types.ObjectId,
-        ref: 'Dates'
+        ref: 'dates'
     },
     reminder: {
         type: mongoose.Types.ObjectId,
-        ref: 'Reminders',
+        ref: 'reminders',
         default: null
     },
     linkByHabit: {
         type: mongoose.Types.ObjectId,
-        ref: 'Habits',
+        ref: 'habits',
         default: null
     },
     images: {
@@ -38,11 +38,11 @@ const Goal = new mongoose.Schema({
     milestones: {
         type: [{
             type: mongoose.Types.ObjectId,
-            ref: 'Milestones'
+            ref: 'milestones'
         }],
         default: null
     }
 }, { timestamps: true })
 
 
-module.exports = mongoose.model('Goals', Goal)
+module.exports = mongoose.model('goals', Goal)

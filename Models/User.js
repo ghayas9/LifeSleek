@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 
 
 const UserSchema = new mongoose.Schema({
-    _id: mongoose.Types.ObjectId,
+    _id: {
+        type:mongoose.Types.ObjectId,
+        default:mongoose.Types.ObjectId()
+    },
     profileImg: {
         type: String,
         default: ''
@@ -28,21 +31,21 @@ const UserSchema = new mongoose.Schema({
         type: [
             {
                 type: mongoose.Types.ObjectId,
-                ref: 'Goals',
+                ref: 'goals',
             }
         ],
-        default: null
+        default: []
     },
     reminders: {
         type: [
             {
                 type: mongoose.Types.ObjectId,
-                ref: 'Reminders'
+                ref: 'reminders'
             }
         ],
-        default: null
+        default: []
     }
 }, { timestamps: true })
 
 
-module.exports = mongoose.model('Users', UserSchema)
+module.exports = mongoose.model('users', UserSchema)

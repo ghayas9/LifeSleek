@@ -7,11 +7,11 @@ const RemSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Types.ObjectId,
-        ref: 'Users'
+        ref: 'users'
     },
     date: {
         type: mongoose.Types.ObjectId,
-        ref: 'Dates'
+        ref: 'dates'
     },
     after:{
         //After 1D => 1, 1M => 30 ,1Y => 360
@@ -21,4 +21,4 @@ const RemSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-module.exports = mongoose.model('Reminders', RemSchema)
+module.exports = mongoose.model('reminders', RemSchema)

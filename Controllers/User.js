@@ -3,66 +3,80 @@ const { CreatToken, pHash, verifyToken } = require('./auth');
 
 
 
+
 const LogIn = async (req, res) => {
     //***********Requaird Field*************//
     if (req.body.email == '' || req.body.email == undefined) {
+        console.log(req.body, "Email not Found")
         res.send({ success: false, message: 'email is required' })
     }
-    if (req.body.password == '' || req.body.password == undefined) {
+    else if (req.body.password == '' || req.body.password == undefined) {
+        console.log(req.body)
         res.send({ success: false, message: 'password is required' })
     }
     //***********Requaird Field*************//
-
-
-    try {
-        const user = await User.findOne({ email: req.body.email });
-        //Password Is In Hash form in database
-        if (user.password === pHash(req.body.password)) {
-            try {
-                const token = await CreatToken(user)
-                res.send({ success: true, message: 'User Successfully LogIned', token: token })
-            } catch (err) {
-                res.send({ success: false, message: 'server issue', error: 'Error Code : User-C-L-21' })
+    else {
+        try {
+            const user = await User.findOne({ email: req.body.email });
+            //Password Is In Hash form in database
+            if (user.password === pHash(req.body.password)) {
+                try {
+                    const token = await CreatToken(user.toObject())
+                    res.send({ success: true, message: 'User Successfully LogIned', token: token })
+                } catch (err) {
+                    console.log(err)
+                    res.send({ success: false, message: 'server issue', error: 'Error Code : User-C-L-21' })
+                }
+            } else {
+                res.send({ success: false, message: 'incorrect password' })
             }
-        } else {
-            res.send({ success: false, message: 'incorrect password' })
+        } catch (err) {
+            res.send({ success: false, message: 'User not Found' })
         }
-    } catch (err) {
-        res.send({ success: false, message: 'User not Found' })
     }
+
 }
 
 
 const Register = async (req, res) => {
+    console.log(req.body)
     //***********Requaird Field*************//
     if (req.body.name == '' || req.body.name == undefined) {
         res.send({ success: false, message: 'name is required' })
     }
-    if (req.body.email == '' || req.body.email == undefined) {
+    else if (req.body.email == '' || req.body.email == undefined) {
         res.send({ success: false, message: 'email or number is required' })
     }
-    if (req.body.password == '' || req.body.password == undefined) {
+    else if (req.body.password == '' || req.body.password == undefined) {
         res.send({ success: false, message: 'password is required' })
     }
     //***********Requaird Field*************//
+    else {
 
+        const newUser = new User()
+        newUser.name = req.body.name
+        newUser.email = req.body.email
+        newUser.password = pHash(req.body.password)
+        try{
+            const email = req.body.email
+            const user = await User.findOne({email})
+            res.send({ success: false, message: 'This Email or Number Is Already Registered'})
+        }catch{
+        try {
+            const user = await newUser.save();
+            res.send({ success: true, message: 'Registered successfully', email: user.email })
 
-    const newUser = new User()
-
-    newUser.name = req.body.name
-    newUser.email = req.body.email
-    newUser.password = pHash(req.body.password)
-    try {
-        const user = await newUser.save();
-        res.send({ success: true, message: 'Registered successfully', email: user.email })
-
-    } catch (err) {
-        res.send({ success: false, message: 'Server Issue', error: 'Error Code: U-C-R-56', })
+        } catch (err) {
+            console.log(err)
+            res.send({ success: false, message: 'Server Issue', error: 'Error Code: U-C-R-56', err})
+        }
     }
+    }
+
 }
 
 
-const EmailVerficationCode =async (req, res) => {
+const EmailVerficationCode = async (req, res) => {
     if (req.body.email == '' || req.body.email == undefined) {
         res.send({ success: false, message: 'email or number is required' })
     }
@@ -100,19 +114,19 @@ const verifyCode = async (req, res) => {
         const tokenData = await verifyToken(req.body.token)
         try {
             //Check user is found or Not
-            if(tokenData.otp ==req.body.otp){
+            if (tokenData.otp == req.body.otp) {
                 await User.updateOne({ email: tokenData.email }, {
                     $set: {
                         verify: true
                     }
                 })
-            const user = await User.findOne({ email: tokenData.email })
-            const token = await CreatToken(user)
-            res.send({ success: true, message: 'Verification successfully completed', token })
-            }else{
-                res.send({ success: false, message: 'Wrong OTP' }) 
+                const user = await User.findOne({ email: tokenData.email })
+                const token = await CreatToken(user)
+                res.send({ success: true, message: 'Verification successfully completed', token })
+            } else {
+                res.send({ success: false, message: 'Wrong OTP' })
             }
-            
+
         } catch (err) {
             //if user not Found
             res.send({ success: false, message: 'user not Found' })

@@ -4,7 +4,7 @@ const Milestones = new mongoose.Schema({
     _id:mongoose.Types.ObjectId,
     user: {
         type: mongoose.type.ObjectId,
-        ref: 'Users'
+        ref: 'users'
     },
     title:{
         type:String
@@ -18,4 +18,4 @@ const Milestones = new mongoose.Schema({
 },{timestamps:true})
 
 
-module.exports = mongoose.model('Milestones',Milestones)
+module.exports = mongoose.model('milestones',Milestones)

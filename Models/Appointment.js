@@ -19,7 +19,7 @@ const Appointment = new mongoose.Schema({
     },
     reminder: {
         type: mongoose.Types.ObjectId,
-        ref: 'Reminders',
+        ref: 'reminders',
         default: null
     }
 
@@ -27,4 +27,4 @@ const Appointment = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Appointments', Appointment)
+module.exports = mongoose.model('appointments', Appointment)
