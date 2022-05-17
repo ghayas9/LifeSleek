@@ -23,10 +23,16 @@ const Goal = new mongoose.Schema({
     },
     reminder: {
         type: mongoose.Types.ObjectId,
-        ref: 'Reminder'
+        ref: 'Reminders',
+        default:null
+    },
+    linkByHabit:{
+        type:mongoose.Types.ObjectId,
+        ref:'Habits',
+        default:null
     },
     images: {
-        type: String,
+        type:Array,
         default: []
     }
 }, { timestamps: true })

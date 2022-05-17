@@ -31,14 +31,14 @@ const UserSchema =new mongoose.Schema({
                 ref:'Goals',
             }
         ],
-        default:[]
+        default:null
     },
     reminders:{
         type:[{
             type:mongoose.Types.ObjectId,
             ref:'Reminders'
         }],
-        default:[]
+        default:null
     }
 },{timestamps:true})
 

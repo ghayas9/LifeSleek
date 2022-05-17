@@ -72,6 +72,8 @@ const EmailVerficationCode = (req, res) => {
             email: req.body.email,
             otp
         })
+
+        //NOT COMPLETE
         if ('email' == 'email') {
             //send Email (code)
             res.send({ success: true, message: 'please check your Email', token })
@@ -80,6 +82,7 @@ const EmailVerficationCode = (req, res) => {
             //send Message (code)
             res.send({ success: true, message: 'please check your Inbox', token })
         }
+        //NOT COMPLETE
     } catch (err) {
         res.send({ success: false, message: 'Server Issue', error: 'Error Code: U-C-EV-69' })
     }
