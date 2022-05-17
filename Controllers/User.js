@@ -62,7 +62,7 @@ const Register = async (req, res) => {
 }
 
 
-const EmailVerficationCode = (req, res) => {
+const EmailVerficationCode =async (req, res) => {
     if (req.body.email == '' || req.body.email == undefined) {
         res.send({ success: false, message: 'email or number is required' })
     }

@@ -17,6 +17,11 @@ const Habit = new mongoose.Schema({
         ref: 'Goals',
         default: null
     },
+    reminder: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Reminders',
+        default: null
+    },
     images: {
         type: Array,
         default: []
