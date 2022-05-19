@@ -1,5 +1,8 @@
 const User = require('../Models/User');
+const Goal = require('../Models/Goal')
+const Cat = require('../Models/Catagory')
 const { CreatToken, pHash, verifyToken } = require('./auth');
+const {sendEmail} = require('./sendEmail');
 
 
 
@@ -98,16 +101,23 @@ const EmailVerficationCode = async (req, res) => {
             email: req.body.email,
             otp
         })
-
-        //NOT COMPLETE
-        if ('email' == 'email') {
-            //send Email (code)
+        try{
+            sendEmail(otp)
             res.send({ success: true, message: 'please check your Email', token })
+        }catch(err){
+            console.log(err)
+            res.send({ success: false, message: 'please check your Email',err})
         }
-        else if ('number' == 'number') {
-            //send Message (code)
-            res.send({ success: true, message: 'please check your Inbox', token })
-        }
+        //NOT COMPLETE
+        // if ('email' == 'email') {
+        //     //send Email (code)
+        // res.send({ success: true, message: 'please check your Email', token })
+            
+        // }
+        // else if ('number' == 'number') {
+        //     //send Message (code)
+        //     res.send({ success: true, message: 'please check your Inbox', token })
+        // }
         //NOT COMPLETE
     } catch (err) {
         res.send({ success: false, message: 'Server Issue', error: 'Error Code: U-C-EV-69' })
@@ -150,6 +160,38 @@ const verifyCode = async (req, res) => {
 }
 
 
+const getGoals = async(req,res)=>{
+    const _id =req.payload._id
+    try{
+        const goal = await Goal.find({'user':_id})
+        res.send({success:true,message:'wjh',goal})
+    }catch(err){
+        res.send({success:false,message:'wjhqdkjqwh'})
+    }
+
+}
+
+//ADD GOALS ///
+
+const addCatforGoal =async(req,res)=>{
+
+}
+const addGoal =(req,res)=>{
+    if(req.body.title==null|| req.body.title==''){
+        res.send({ success: false, message: 'title is required' })
+    }
+    if(req.body.desc==null|| req.body.desc==''){
+        res.send({ success: false, message: 'desc is required' })
+    }
+    if(req.body.target==null|| req.body.target==''){
+        res.send({ success: false, message: 'target is required' })
+    }
+    const _id =req.payload._id
+    const newGoal = new Goal()
+
+
+}
+
 const LogInWithGoogle =async(req,res)=>{
 
 }
@@ -157,5 +199,6 @@ const LogInWithGoogle =async(req,res)=>{
 module.exports = {
     LogIn,
     Register,
-    EmailVerficationCode
+    EmailVerficationCode,
+    getGoals,
 }

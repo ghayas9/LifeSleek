@@ -24,10 +24,15 @@ mongoose.connect(
 ).then(() => { console.warn('connected') }).
     catch(() => { console.warn('not connected') });
 
+app.use('/cat', express.static(__dirname + '/Public/Image/CatImage'))
+app.use('/pro', express.static(__dirname + '/Public/Image/ProImage'))
+app.use('/other', express.static(__dirname + '/Public/Image/OtherImage'))
 
 const UserRouter = require('./Router/User')
+const CatRouter = require('./Router/Catagory');
 
 app.use('/user', UserRouter)
+app.use('/cat', CatRouter)
 
 app.listen(PORT, () => {
     console.log(`localhost:${PORT} `)

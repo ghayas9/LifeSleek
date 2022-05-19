@@ -8,8 +8,14 @@ const Goal = new mongoose.Schema({
         default: mongoose.Types.ObjectId()
     },
     user: {
-        type: mongoose.type.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'users'
+    },
+    catagory:{
+        type:{
+            type:mongoose.Types.ObjectId,
+            ref:'catagories'
+        }
     },
     title: {
         type: String
