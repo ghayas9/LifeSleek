@@ -9,10 +9,10 @@ const dateAndTime = new mongoose.Schema({
         type: String,
         default: ''
     },
-    from: {
+    dateFrom: {
         type: Date
     },
-    to: {
+    dateTo: {
         type: Date
     }
 }, { timestamps: true })
