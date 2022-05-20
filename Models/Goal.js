@@ -41,8 +41,12 @@ const Goal = new mongoose.Schema({
         default: null
     },
     images: {
-        type: Array,
-        default: []
+        type:[
+            {
+                type:String
+            }
+        ],
+        default:null
     },
     milestones: {
         type: [{

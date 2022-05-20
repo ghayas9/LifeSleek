@@ -30,9 +30,11 @@ app.use('/other', express.static(__dirname + '/Public/Image/OtherImage'))
 
 const UserRouter = require('./Router/User')
 const CatRouter = require('./Router/Catagory');
+const goalRouter = require('./Router/Goal');
 
 app.use('/user', UserRouter)
 app.use('/cat', CatRouter)
+app.use('/goal', goalRouter)
 
 app.listen(PORT, () => {
     console.log(`localhost:${PORT} `)
