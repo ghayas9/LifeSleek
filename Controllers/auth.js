@@ -15,9 +15,32 @@ const CreatToken=(data)=>{
     })
 }
 
+const newCreatToken=(data,key)=>{
+    return new Promise((res,rej)=>{
+        jwt.sign(data,key,(err,token)=>{
+            if(err){
+                rej(err)
+            }else{
+                res(token)
+            }
+        })
+    })
+}
+
 const verifyToken=(token)=>{
     return new Promise((res,rej)=>{
         jwt.verify(token,jwtKey,(err,data)=>{
+                if(err){
+                    rej(err)
+                }else{
+                    res(data)
+                }
+        })
+    })
+}
+const newverifyToken=(token,key)=>{
+    return new Promise((res,rej)=>{
+        jwt.verify(token,key,(err,data)=>{
                 if(err){
                     rej(err)
                 }else{
@@ -61,5 +84,7 @@ module.exports ={
     verify,
     verifyToken,
     checkPasswordIsChange,
-    pHash
+    pHash,
+    newCreatToken,
+    newverifyToken
 }

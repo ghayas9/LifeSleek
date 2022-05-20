@@ -13,6 +13,7 @@ app.use(cors({ origin: '*' }));
 app.use(bodyParser.json())
 // app.use();
 // for parsing application/xwww-
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(

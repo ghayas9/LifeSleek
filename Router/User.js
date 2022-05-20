@@ -1,16 +1,16 @@
-const { LogIn, Register, EmailVerficationCode, getGoals, verifyCode } = require('../Controllers/User')
-const nodemailer = require('nodemailer')
+const {LogIn, SignUp, ConfirmEmail, VerifyEmail, EnterEmailForgot, VerifyEmailForgot, newPassword} = require('../Controllers/User')
+
 const express = require('express')
 const { verify } = require('../Controllers/auth')
 const router = express.Router()
 
-router.post('/login', LogIn)
-router.post('/register', Register)
-router.post('/OTP',EmailVerficationCode)
-router.post('/verifyOTP',verifyCode)
-router.get('/goals',verify,getGoals)
-
-
+router.post('/login',LogIn)
+router.post('/signup',SignUp)
+router.post('/confirmEmail',ConfirmEmail)
+router.post('/verifyEmail',VerifyEmail)
+router.post('/forgotpassword',EnterEmailForgot)
+router.post('/verifyEmailforgot',VerifyEmailForgot)
+router.post('/changepassword',newPassword)
 
 // router.post('/send',async(req,res)=>{
 //     if(req.body.email==null||req.body.email==''){
@@ -69,7 +69,7 @@ router.get('/goals',verify,getGoals)
 //               res.send({success:true,email:req.body.email})
 //             }
 //           });
-        
+
 //         //   console.log(info)
 //         // res.send({success:true,email:req.body.email})
 //     }catch(err){
@@ -80,7 +80,7 @@ router.get('/goals',verify,getGoals)
 
 
 
-    
+
 // })
 
 module.exports = router

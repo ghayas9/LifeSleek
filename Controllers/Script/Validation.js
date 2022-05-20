@@ -13,6 +13,7 @@ const ValidatePhone = (number) => {
 }
 
 
+
 module.exports = {
     ValidateEmail,
     ValidatePhone
