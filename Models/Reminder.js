@@ -5,6 +5,10 @@ const RemSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         default: mongoose.Types.ObjectId()
     },
+    IsOn:{
+        type:Boolean,
+        default:false
+    },
     title: {
         type: String
     },
@@ -16,10 +20,10 @@ const RemSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'dates'
     },
-    after: {
+    daily: {
         //After 1D => 1, 1M => 30 ,1Y => 360
         type: Number,
-        default: 1
+        default: 0
     }
 
 }, { timestamps: true })

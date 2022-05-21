@@ -15,6 +15,10 @@ const Habit = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'dates'
     },
+    rep:{
+        type:Number,
+        default:0
+    },
     linkByGoal: {
         type: mongoose.Types.ObjectId,
         ref: 'goals',

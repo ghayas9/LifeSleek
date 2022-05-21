@@ -5,10 +5,6 @@ const Milestones = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         default: mongoose.Types.ObjectId()
     },
-    user: {
-        type: mongoose.type.ObjectId,
-        ref: 'users'
-    },
     title: {
         type: String
     },

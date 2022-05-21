@@ -2,7 +2,6 @@ const User = require('../Models/User');
 const Goal = require('../Models/Goal')
 const Cat = require('../Models/Catagory')
 const { CreatToken, pHash, newCreatToken, newverifyToken } = require('./auth');
-const { sendEmail } = require('./sendEmail');
 const { ValidateEmail, ValidatePhone } = require('./Script/Validation');
 const { Rand4 } = require('./Script/Random');
 const { emailVerification, forgotpassword, passwordVerified } = require('../Config/JwtConfig');
