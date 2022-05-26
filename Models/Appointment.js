@@ -5,6 +5,10 @@ const Appointment = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         default: mongoose.Types.ObjectId()
     },
+    UId:{
+        type: mongoose.Types.ObjectId,
+        ref:'users'
+    },
     DoctorName: {
         type: String
     },

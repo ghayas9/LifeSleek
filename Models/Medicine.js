@@ -4,7 +4,7 @@ const Medicine = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         default: mongoose.Types.ObjectId()
     },
-    user: {
+    UId: {
         type: mongoose.Types.ObjectId,
         ref: 'users'
     },
@@ -18,11 +18,19 @@ const Medicine = new mongoose.Schema({
         type: Number
     },
     reminders: {
-        type: [{
-            type: mongoose.Types.ObjectId,
-            ref: 'reminders'
-        }],
-        default: null
+        type: {
+            dateFrom:{type:Date},
+            dateTo:{type:Date},
+            IsOn:{type:Boolean,default:false},
+            daily:[
+                {
+                    title:{
+                        type:String,
+                        required:true
+                    }
+                }
+            ]
+        }
     }
 }, { timestamps: true })
 module.exports = mongoose.model('medicines', Medicine)

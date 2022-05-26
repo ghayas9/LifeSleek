@@ -7,15 +7,13 @@ const Goal = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         default: mongoose.Types.ObjectId()
     },
-    user: {
+    UId: {
         type: mongoose.Types.ObjectId,
         ref: 'users'
     },
     catagory:{
-        type:{
             type:mongoose.Types.ObjectId,
             ref:'catagories'
-        }
     },
     title: {
         type: String

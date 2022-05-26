@@ -12,7 +12,7 @@ const RemSchema = new mongoose.Schema({
     title: {
         type: String
     },
-    user: {
+    UId: {
         type: mongoose.Types.ObjectId,
         ref: 'users'
     },

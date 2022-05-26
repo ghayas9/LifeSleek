@@ -5,9 +5,11 @@ const Habit = require('../Models/Habit');
 const Remainder = require('../Models/Reminder');
 const Milestones = require('../Models/Milestones');
 const User = require('../Models/User');
+const Catagory = require('../Models/Catagory');
 
 module.exports = {
     addGoal: async (req, res) => {
+        console.log(req.body);
         if (req.body.title == null || req.body.title == '') {
             res.send({ success: false, message: 'title is required' })
         }
@@ -20,6 +22,17 @@ module.exports = {
         else if (req.body.catId == null || req.body.catId == '') {
             res.send({ success: false, message: 'cat id is required' })
         }
+        // else if (req.body.catId) {
+        //     try{
+        //         const result  = Catagory.findOne({_id:req.body.catId})
+        //     // res.send({ success: false, message: 'cat id is Unavailible!' })
+        //     }catch(err){
+        //         console.log(err);
+        //         // const result  = Catagory.findOne({_id:req.body.catId})
+        //     res.send({ success: false, message: 'cat id is Unavailible!' })
+        //     }
+            
+        // }
         else if (req.body.dateFrom == null || req.body.dateFrom == '') {
             res.send({ success: false, message: 'Start Date is required' })
         }
@@ -31,16 +44,22 @@ module.exports = {
             newDate.title = req.body.title
             newDate.dateFrom = new Date(req.body.dateFrom)
             newDate.dateTo = new Date(req.body.dateTo)
+
+            try{
+                const result  = Catagory.findOne({_id:req.body.catId})
+                if(result){
+                    // console.log(result);
             try {
                 const cdate = await newDate.save()
                 try {
                     const newGoal = new Goal()
-                    newGoal.catId = mongoose.Types.ObjectId(req.body.catId)
+                    newGoal.catagory = mongoose.Types.ObjectId(req.body.catId)
                     newGoal.title = req.body.title
                     newGoal.desc = req.body.desc
                     newGoal.target = req.body.target
                     newGoal.date = mongoose.Types.ObjectId(cdate._id)
                     newGoal.user = mongoose.Types.ObjectId(req.payload._id)
+                    console.log(newGoal);
                     const cGoal = await newGoal.save()
                     res.send({ success: true, message: 'Goal Successfully Added', GId: cGoal._id })
                 } catch (err) {
@@ -49,11 +68,14 @@ module.exports = {
                 }
             } catch (err) {
                 res.send({ success: false, message: 'Date problem : Goal - 46' })
-            }
+            }}
+        }catch(err){
+                
+        }
         }
     },
     addRemainder: async (req, res) => {
-        if (req.body.GId == '' || req.body.HId == undefined) {
+        if (req.body.GId == '' || req.body.GId == undefined) {
             res.send({ success: false, message: 'Goal is required' })
         }
         else if (req.body.IsOn == '' || req.body.IsOn == undefined) {
@@ -69,7 +91,7 @@ module.exports = {
                 newRemainder.title = myGoal.title
                 newRemainder.date = mongoose.Types.ObjectId(myGoal.date)
                 newRemainder.IsOn = Boolean(req.body.IsOn)
-                newRemainder.user = mongoose.Types.ObjectId(req.payload._id)
+                newRemainder.UId = mongoose.Types.ObjectId(req.payload._id)
                 newRemainder.daily = Number(req.body.daily)
                 try {
                     const CRemainder = await newRemainder.save()
@@ -165,14 +187,29 @@ module.exports = {
         res.send({success:false,message:'Image  Not found'})
         
     },getGoal:async(req,res)=>{
-        const _id = req.payload._id
-        const user = User.findOne({_id})
-
-        if(user){
-            const allGoals = Goal.find({user:user._id})
-            res.send({success:true, goals:allGoals}) 
-        }else{
-            res.send({success:false,message:'User Not Found'}) 
+                const _id = req.payload._id
+            try{
+                const allGoals =await Goal.find({UId:req.payload._id}).
+                populate([
+                {
+                    path:'date',
+                    model:'dates',
+                    select:['dateFrom','dateTo']
+                },
+                {
+                    path:'reminder',
+                    model:'reminders'
+                },
+                {
+                    path:'catagory',
+                    model:'catagories',
+                    select:'name'
+                }
+            ])
+                res.send({success:true, goals:allGoals}) 
+            }catch(err){
+                console.log(err);
+                res.send({success:false, message:'error'})
+            }
         }
-    }
 }

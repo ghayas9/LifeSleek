@@ -112,6 +112,24 @@ module.exports ={
         }
     },
     addImage: async (req,res) =>{
-        
+        if(req.body.HId==''||req.body.UId==undefined){
+            res.send({ success: false, message: 'HId is requaired' })
+        }
+        else{
+            try{
+                const VHId = await Habit.findOne({ _id: req.body.HId })
+                const UpdateHabit = await Habit.updateOne({ _id: req.body.HId }, {
+                    $push: {
+                        images: `${req.body.file}` 
+                    }
+                })
+                res.send({ success: true, message: 'Image added su.....ly'})
+            }catch(err){
+                res.send({ success: false, message: 'Wrong HId',error:err })
+            }
+
+
+
+        }
     }
 }

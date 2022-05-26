@@ -2,6 +2,7 @@ const {LogIn, SignUp, ConfirmEmail, VerifyEmail, EnterEmailForgot, VerifyEmailFo
 
 const express = require('express')
 const { verify } = require('../Controllers/auth')
+const { addGoal, getGoal } = require('../Controllers/Goal')
 const router = express.Router()
 
 router.post('/login',LogIn)
@@ -11,6 +12,8 @@ router.post('/verifyEmail',VerifyEmail)
 router.post('/forgotpassword',EnterEmailForgot)
 router.post('/verifyEmailforgot',VerifyEmailForgot)
 router.post('/changepassword',newPassword)
+router.post('/goal/add',verify,addGoal)
+router.get('/goal/all',verify,getGoal)
 
 // router.post('/send',async(req,res)=>{
 //     if(req.body.email==null||req.body.email==''){

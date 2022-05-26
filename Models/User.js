@@ -26,29 +26,29 @@ const UserSchema = new mongoose.Schema({
     verify: {
         type: Boolean,
         default: false
-    },
-    goals: {
-        type: [
-            {
-                type: mongoose.Types.ObjectId,
-                ref: 'goals',
-            }
-        ],
-    },
-    reminders: {
-        type: [
-            {
-                type: mongoose.Types.ObjectId,
-                ref: 'reminders'
-            }
-        ],
-    },
-    habits: {
-        type: [{
-            type: mongoose.Types.ObjectId,
-            ref: 'habits',
-        }]
     }
+    // goals: {
+    //     type: [
+    //         {
+    //             type: mongoose.Types.ObjectId,
+    //             ref: 'goals',
+    //         }
+    //     ],
+    // },
+    // reminders: {
+    //     type: [
+    //         {
+    //             type: mongoose.Types.ObjectId,
+    //             ref: 'reminders'
+    //         }
+    //     ],
+    // },
+    // habits: {
+    //     type: [{
+    //         type: mongoose.Types.ObjectId,
+    //         ref: 'habits',
+    //     }]
+    // }
 }, { timestamps: true })
 
 

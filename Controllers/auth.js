@@ -53,20 +53,26 @@ const newverifyToken=(token,key)=>{
 
 const verify =async(req,res,next)=>{
     if(req.headers['authorization']){
-        const token =req.headers['authorization'].split(' ')[1]
-        if(token){
-            try{
-               req.payload=await verifyToken(token)
-               req.token=await token
-               next()
-            }catch(err){
-                console.log(err)
-                res.send({sucess:false ,message:'Server Issue ',error:`Error :code auth-v-39 ${err}`})
+        try{
+            const token =req.headers['authorization'].split(' ')[1]
+            if(token){
+                try{
+                   req.payload=await verifyToken(token)
+                   req.token=await token
+                   next()
+                }catch(err){
+                    console.log(err)
+                    res.send({sucess:false ,message:`${err}`})
+                }
+            }else{
+                res.send({sucess:false ,message:'Please Provide Berar Token '})
             }
+        }catch(err){
+            res.send({sucess:false ,message:'Please Provide Berar Token '})
         }
-    }else{
+        }else{
         res.send({sucess:false ,message:'Please Provide Berar Token '})
-    }
+        }
     
 }
 
