@@ -23,7 +23,7 @@ router.post('/changepassword',newPassword)
 //             service: 'gmail',
 //             auth: {
 //               user: 'ghayasudin999@gmail.com',
-//               pass: '*Ghayasgoogle9#'
+//               pass: ''
 //             }
 //           });
 //         // const transporter = nodemailer.createTransport({

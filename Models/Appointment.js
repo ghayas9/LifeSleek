@@ -20,10 +20,19 @@ const Appointment = new mongoose.Schema({
     NextAppointmentDate: {
         type: Date
     },
-    reminder: {
-        type: mongoose.Types.ObjectId,
-        ref: 'reminders',
-        default: null
+    Remarks:{
+        type:String,
+        default:''
+    },
+    MedicalTest:{
+        type:String
+    },
+    Images:{
+        type:[
+            {
+                type:String
+            }
+        ]
     }
 
 }, { timestamps: true })

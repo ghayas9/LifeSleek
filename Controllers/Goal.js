@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const Habit = require('../Models/Habit');
 const Remainder = require('../Models/Reminder');
 const Milestones = require('../Models/Milestones');
+const User = require('../Models/User');
 
 module.exports = {
     addGoal: async (req, res) => {
@@ -154,6 +155,24 @@ module.exports = {
             }
 
             res.send({ success: false, message: 'SomThing Went Wrong' })
+        }
+    },addImage: async (req,res) =>{
+        if(req.body.files==null,req.body.files==undefined){
+            console.log(req.body.files)
+            res.send({success:false,message:'Image Not found'})
+        }
+
+        res.send({success:false,message:'Image  Not found'})
+        
+    },getGoal:async(req,res)=>{
+        const _id = req.payload._id
+        const user = User.findOne({_id})
+
+        if(user){
+            const allGoals = Goal.find({user:user._id})
+            res.send({success:true, goals:allGoals}) 
+        }else{
+            res.send({success:false,message:'User Not Found'}) 
         }
     }
 }
