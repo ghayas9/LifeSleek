@@ -2,8 +2,6 @@ const User = require('../Models/User');
 const Goal = require('../Models/Goal')
 const Cat = require('../Models/Catagory')
 
-
-
 const addCatagory=async(req,res)=>{
     if(req.body.name==null|| req.body.name==''){
         res.send({ success: false, message: 'name is required' })
@@ -45,7 +43,7 @@ const DeleteCat =async (req,res)=>{
 
 const getAllCat =async(req,res)=>{
     try{
-        const cat = await Cat.find()
+        const cat = await Cat.find({},{_id:1,name:1,iconImage:1})
         res.send({ success: true, cat })
     }catch(err){
         res.send({ success: false, message: "Can't find ",error:"Error code : cat-GA-cat-27" })

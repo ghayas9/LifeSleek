@@ -115,15 +115,21 @@ module.exports ={
         if(req.body.HId==''||req.body.UId==undefined){
             res.send({ success: false, message: 'HId is requaired' })
         }
-        else{
+        else{ 
+            const host = 'localhost:9000'
+            const img = ()=>{
+                return req.body.files.map((e=>{
+                    return `${host}`
+                }))
+            }
             try{
-                const VHId = await Habit.findOne({ _id: req.body.HId })
-                const UpdateHabit = await Habit.updateOne({ _id: req.body.HId }, {
-                    $push: {
-                        images: `${req.body.file}` 
-                    }
-                })
-                res.send({ success: true, message: 'Image added su.....ly'})
+                // const VHId = await Habit.findOne({ _id: req.body.HId })
+                // const UpdateHabit = await Habit.updateOne({ _id: req.body.HId }, {
+                //     $push: {
+                //         images: `${req.body.files}` 
+                //     }
+                // })
+                res.send({ success: true, message: 'Image added su.....ly',Image:img})
             }catch(err){
                 res.send({ success: false, message: 'Wrong HId',error:err })
             }

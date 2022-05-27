@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 9000
 
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.json())
+// app.use(JSON.stringify())
 // app.use();
 // for parsing application/xwww-
 // app.use(bodyParser.urlencoded());
@@ -32,10 +33,24 @@ app.use('/other', express.static(__dirname + '/Public/Image/OtherImage'))
 const UserRouter = require('./Router/User')
 const CatRouter = require('./Router/Catagory');
 const goalRouter = require('./Router/Goal');
+const checking = require('./Router/checking');
+const appointment = require('./Router/Appointment');
+const web = require('./Router/Web');
+// const { verify } = require('/Controllers/auth')
+
+//set views file
+app.set('views',path.join(__dirname,'views'));
+//set view engine
+app.set('view engine', 'ejs');
+
+
 
 app.use('/user', UserRouter)
 app.use('/cat', CatRouter)
 app.use('/goal', goalRouter)
+app.use('/app', appointment)
+app.use('/chk', checking)
+app.use('/web', web)
 
 app.listen(PORT, () => {
     console.log(`localhost:${PORT} `)
