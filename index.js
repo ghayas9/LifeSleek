@@ -29,7 +29,7 @@ app.use('/other', express.static(__dirname + '/Public/Image/OtherImage'))
 
 const UserRouter = require('./Router/User')
 const CatRouter = require('./Router/Catagory');
-const checking = require('./Router/checking');
+// const checking = require('./Router/checking');
 
 //set views file
 app.set('views',path.join(__dirname,'views'));
