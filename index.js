@@ -32,7 +32,7 @@ app.use('/other', express.static(__dirname + '/Public/Image/OtherImage'))
 
 const UserRouter = require('./Router/User')
 const CatRouter = require('./Router/Catagory');
-const goalRouter = require('./Router/Goal');
+// const goalRouter = require('./Router/Goal');
 const checking = require('./Router/checking');
 const appointment = require('./Router/Appointment');
 const web = require('./Router/Web');
@@ -47,10 +47,10 @@ app.set('view engine', 'ejs');
 
 app.use('/user', UserRouter)
 app.use('/cat', CatRouter)
-app.use('/goal', goalRouter)
-app.use('/app', appointment)
-app.use('/chk', checking)
-app.use('/web', web)
+// app.use('/goal', goalRouter)
+// app.use('/app', appointment)
+// app.use('/chk', checking)
+// app.use('/web', web)
 
 app.listen(PORT, () => {
     console.log(`localhost:${PORT} `)

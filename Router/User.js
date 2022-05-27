@@ -1,9 +1,6 @@
 const {LogIn, SignUp, ConfirmEmail, VerifyEmail, EnterEmailForgot, VerifyEmailForgot, newPassword} = require('../Controllers/User')
 
 const express = require('express')
-const { verify } = require('../Controllers/auth')
-const { addGoal, getGoal } = require('../Controllers/Goal')
-const { addHabit } = require('../Controllers/Habit')
 const router = express.Router()
 
 router.post('/login',LogIn)
@@ -15,9 +12,19 @@ router.post('/verifyEmailforgot',VerifyEmailForgot)
 router.post('/changepassword',newPassword)
 
 /////////////////////////////////////////
-router.post('/goal/add',verify,addGoal)
-router.get('/goal/all',verify,getGoal)
-router.get('/habit/add',verify,addHabit)
-// router.get('/habit/add',verify,getH)
+const goalRouter = require('./Goal')
+//all   //add //addremainder //linkto
+router.use('/goal',goalRouter)
+
+////////////////////////////////////////
+const habitRouter = require('./Habits')
+//all   //add //addremainder //linkto
+router.use('/habit',habitRouter)
+
+/////////////////////////////////////////
+const appointment = require('./Appointment')
+//all  //add  //delete
+router.use('/appointment',appointment)
+
 
 module.exports = router

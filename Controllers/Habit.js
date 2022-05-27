@@ -5,20 +5,28 @@ const Remainder = require('../Models/Reminder')
 const Goal = require('../Models/Goal')
 
 module.exports ={
+    getAllHabits:async(req,res)=>{
+        try{
+            const habits = await Habit.find({UId:req.payload._id})
+            res.send({success:true,message:'',habits})
+        }catch(err){
+            res.send({success:false,message:'Something went wrong'})
+        }
+    },
     addHabit:async(req, res) => {
-        if (req.body.title == null || req.body.title == null) {
+        if (req.body.title == '' || req.body.title == undefined) {
             res.send({ success: false, message: 'title is required' })
         }
-        else if (req.body.desc == null || req.body.desc == null) {
+        else if (req.body.desc == '' || req.body.desc == undefined) {
             res.send({ success: false, message: 'desc is required' })
         }
-        else if (req.body.dateFrom == null || req.body.dateFrom == null) {
+        else if (req.body.dateFrom == '' || req.body.dateFrom == undefined) {
             res.send({ success: false, message: 'Start Date is required' })
         }
-        else if (req.body.dateTo == null || req.body.dateTo == null) {
+        else if (req.body.dateTo == '' || req.body.dateTo == undefined) {
             res.send({ success: false, message: 'End Date is required' })
         }
-        else if (req.body.rep == null || req.body.rep == null) {
+        else if (req.body.rep == '' || req.body.rep == undefined) {
             res.send({ success: false, message: 'repeation is required' })
         }
         else {
@@ -38,21 +46,21 @@ module.exports ={
                     res.send({ success: true, message: 'Habit Successfully Added', HId: cHabit._id })
                 } catch (err) {
                     console.log(err)
-                    res.send({ success: false, message: 'Habit problem : Goal - 43' })
+                    res.send({ success: false, message: 'Habit problem : G - 43' })
                 }
             } catch (err) {
-                res.send({ success: false, message: 'Date problem : Goal - 46' })
+                res.send({ success: false, message: 'Date problem : G - 46' })
             }
         }
     },
     addRemainder: async (req, res) => {
-        if (req.body.HId == null || req.body.HId == undefined) {
+        if (req.body.HId == '' || req.body.HId == undefined) {
             res.send({ success: false, message: 'Habit is required' })
         }
-        else if (req.body.IsOn == null || req.body.IsOn == undefined) {
+        else if (req.body.IsOn == '' || req.body.IsOn == undefined) {
             res.send({ success: false, message: 'On or Of is required' })
         }
-        else if (req.body.daily == null || req.body.daily == undefined) {
+        else if (req.body.daily == '' || req.body.daily == undefined) {
             res.send({ success: false, message: 'Daily Limits  is required' })
         } else {
             const newRemainder = new Remainder()
@@ -83,9 +91,9 @@ module.exports ={
     }
     ,
     LinkToGoal:async(req, res) => {
-        if (req.body.HId == null || req.body.HId == undefined) {
+        if (req.body.HId == '' || req.body.HId == undefined) {
             res.send({ success: false, message: 'Habit ID is required' })
-        } else if (req.body.GId == null || req.body.GId == undefined) {
+        } else if (req.body.GId == '' || req.body.GId == undefined) {
             res.send({ success: false, message: 'Goal ID is required' })
         } else {
             try {
@@ -116,10 +124,10 @@ module.exports ={
             res.send({ success: false, message: 'HId is requaired' })
         }
         else{ 
-            const host = 'localhost:9000'
+            // const host = 'localhost:9000'
             const img = ()=>{
                 return req.body.files.map((e=>{
-                    return `${host}`
+                    return `${e.filename}`
                 }))
             }
             try{
