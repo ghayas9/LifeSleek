@@ -7,8 +7,39 @@ const Goal = require('../Models/Goal')
 module.exports ={
     getAllHabits:async(req,res)=>{
         try{
-            const habits = await Habit.find({UId:req.payload._id})
-            res.send({success:true,message:'',habits})
+            const UId=req.payload._id
+            const habits = await Habit.find({UId}).
+            populate([
+                {
+                    path:'date',
+                    model:'dates',
+                    select:['dateFrom','dateTo']
+                },
+                {
+                    path:'reminder',
+                    model:'reminders'
+                },{
+                    path:'LinkToGoal',
+                    model:'goals',
+                    populate:([
+                        {
+                            path:'date',
+                            model:'dates',
+                            select:['dateFrom','dateTo']
+                        },
+                        {
+                            path:'reminder',
+                            model:'reminders'
+                        },
+                        {
+                            path:'catagory',
+                            model:'catagories',
+                            select:'name'
+                        }
+                    ])
+                }
+            ])
+            res.send({success:true,habits})
         }catch(err){
             res.send({success:false,message:'Something went wrong'})
         }

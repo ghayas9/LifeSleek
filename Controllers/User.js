@@ -1,6 +1,4 @@
 const User = require('../Models/User');
-const Goal = require('../Models/Goal')
-const Cat = require('../Models/Catagory')
 const { CreatToken, pHash, newCreatToken, newverifyToken } = require('./auth');
 const { ValidateEmail, ValidatePhone } = require('./Script/Validation');
 const { Rand4 } = require('./Script/Random');

@@ -10,16 +10,16 @@ const Catagory = require('../Models/Catagory');
 module.exports = {
     addGoal: async (req, res) => {
         console.log(req.body);
-        if (req.body.title == null || req.body.title == '') {
+        if (req.body.title == '' || req.body.title == '') {
             res.send({ success: false, message: 'title is required' })
         }
-        else if (req.body.desc == null || req.body.desc == '') {
+        else if (req.body.desc == '' || req.body.desc == '') {
             res.send({ success: false, message: 'desc is required' })
         }
-        else if (req.body.target == null || req.body.target == '') {
+        else if (req.body.target == '' || req.body.target == '') {
             res.send({ success: false, message: 'target is required' })
         }
-        else if (req.body.catId == null || req.body.catId == '') {
+        else if (req.body.catId == '' || req.body.catId == '') {
             res.send({ success: false, message: 'cat id is required' })
         }
         // else if (req.body.catId) {
@@ -33,10 +33,10 @@ module.exports = {
         //     }
             
         // }
-        else if (req.body.dateFrom == null || req.body.dateFrom == '') {
+        else if (req.body.dateFrom == '' || req.body.dateFrom == '') {
             res.send({ success: false, message: 'Start Date is required' })
         }
-        else if (req.body.dateTo == null || req.body.dateTo == '') {
+        else if (req.body.dateTo == '' || req.body.dateTo == '') {
             res.send({ success: false, message: 'End Date is required' })
         }
         else {
@@ -110,7 +110,7 @@ module.exports = {
 
         }
     },
-    addMilestone: async (req, res) => {
+    LinkToHabit: async (req, res) => {
         if (req.body.HId == '' || req.body.HId == undefined) {
             res.send({ success: false, message: 'Habit ID is required' })
         } else if (req.body.GId == '' || req.body.GId == undefined) {
@@ -139,17 +139,17 @@ module.exports = {
             }
         }
     },
-    LinkToHabit: async (req, res) => {
-        if (req.body.title == null || req.body.title == undefined) {
+    addMilestone: async (req, res) => {
+        if (req.body.title == '' || req.body.title == undefined) {
             res.send({ success: false, message: 'Title Is Requaire' })
         }
-        else if (req.body.desc == null || req.body.desc == undefined) {
+        else if (req.body.desc == '' || req.body.desc == undefined) {
             res.send({ success: false, message: 'Description Is Requaire' })
         }
-        else if (req.body.GId == null || req.body.GId == undefined) {
+        else if (req.body.GId == '' || req.body.GId == undefined) {
             res.send({ success: false, message: 'Goal Id Is Requaire' })
         }
-        else if (req.body.target == null || req.body.target == undefined) {
+        else if (req.body.target == '' || req.body.target == undefined) {
         } else {
             try {
                 const FNDG = await Goal.findOne({ _id: req.body.GId })
@@ -179,17 +179,16 @@ module.exports = {
             res.send({ success: false, message: 'SomThing Went Wrong' })
         }
     },addImage: async (req,res) =>{
-        if(req.body.files==null,req.body.files==undefined){
-            console.log(req.body.files)
+        if(req.files=='',req.files==undefined){
+            console.log(req.files)
             res.send({success:false,message:'Image Not found'})
         }
-
         res.send({success:false,message:'Image  Not found'})
         
     },getGoal:async(req,res)=>{
-                const _id = req.payload._id
+                const UId = req.payload._id
             try{
-                const allGoals =await Goal.find({UId:req.payload._id}).
+                const allGoals =await Goal.find({UId}).
                 populate([
                 {
                     path:'date',
@@ -204,6 +203,24 @@ module.exports = {
                     path:'catagory',
                     model:'catagories',
                     select:'name'
+                },
+                {
+                    path:'LinkToHabit',
+                    model:'habits',
+                    populate:([
+                        {
+                            path:'date',
+                            model:'dates',
+                            select:['dateFrom','dateTo']
+                        },
+                        {
+                            path:'reminder',
+                            model:'reminders'
+                        },{
+                            path:'LinkToGoal',
+                            model:'goals'
+                        }
+                    ])
                 }
             ])
                 res.send({success:true, goals:allGoals}) 
