@@ -7,6 +7,10 @@ const path = require("path");
 require('dotenv').config()
 const PORT = process.env.PORT || 9000
 
+// const multer = require('multer');
+// const upload = multer();
+// app.use(upload.array());
+
 
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.json())
@@ -29,7 +33,7 @@ app.use('/other', express.static(__dirname + '/Public/Image/OtherImage'))
 
 const UserRouter = require('./Router/User')
 const CatRouter = require('./Router/Catagory');
-const checking = require('./Router/checking');
+// const checking = require('./Router/checking');
 
 //set views file
 app.set('views',path.join(__dirname,'views'));
@@ -37,10 +41,14 @@ app.set('views',path.join(__dirname,'views'));
 app.set('view engine', 'ejs');
 
 app.use('/api/v1', UserRouter)
-app.use('/cat', CatRouter)
+// app.use('/cat', CatRouter)
 // app.use('/chk', checking)
 // app.use('/web', web)
 
-app.listen(PORT, () => {
-    console.log(`localhost:${PORT} `)
+const server = app.listen(PORT,()=>{console.log('localhost:'+PORT)});
+const io = require('socket.io')(server);
+app.set('socketio', io)
+
+io.on('connection',(socket)=>{
+    console.log(socket.id);
 })

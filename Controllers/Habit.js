@@ -172,9 +172,29 @@ module.exports ={
             }catch(err){
                 res.send({ success: false, message: 'Wrong HId',error:err })
             }
-
-
-
+        }
+    },
+    Delete:async(req,res)=>{
+        if (req.params.id == undefined || req.params.id == '') {
+            return res.send({ success: false, message: 'Id is required' })
+        } else {
+            const _id = req.params.id
+            try {
+                const habit = await Habit.findOne({ _id })
+                if(habit.UId==req.payload_id){
+                    try {
+                        const del = await Habit.deleteOne({ _id })
+                        return res.send({ success: true, message: "Habit is Deleted Successfully" })
+                    } catch (err) {
+                        return res.send({ success: false, message: 'Habit Not Deleted' })
+                    }
+                }else{
+                    return res.send({ success: false, message: "you can't delete this!" })
+                }
+            
+            } catch (err) {
+                return res.send({ success: false, message: 'Habit Not Found' })
+            }
         }
     }
 }

@@ -180,8 +180,8 @@ module.exports = {
         }
     },addImage: async (req,res) =>{
         if(req.files=='',req.files==undefined){
-            console.log(req.files)
-            res.send({success:false,message:'Image Not found'})
+            // console.log(req.files)
+            return res.send({success:false,message:'Image Not found'})
         }
         res.send({success:false,message:'Image  Not found'})
         
@@ -205,6 +205,10 @@ module.exports = {
                     select:'name'
                 },
                 {
+                    path:'milestones',
+                    model:'milestones'
+                },
+                {
                     path:'LinkToHabit',
                     model:'habits',
                     populate:([
@@ -223,10 +227,33 @@ module.exports = {
                     ])
                 }
             ])
-                res.send({success:true, goals:allGoals}) 
+               return res.send({success:true, goals:allGoals}) 
             }catch(err){
-                console.log(err);
-                res.send({success:false, message:'error'})
+                // console.log(err);
+               return  res.send({success:false, message:'error'})
+            }
+        },
+        Delete:async(req,res)=>{
+            if (req.params.id == undefined || req.params.id == '') {
+                return res.send({ success: false, message: 'Id is required' })
+            } else {
+                const _id = req.params.id
+                try {
+                    const goal = await Goal.findOne({ _id })
+                    if(goal.UId==req.payload_id){
+                        try {
+                            const del = await Goal.deleteOne({ _id })
+                            return res.send({ success: true, message: "Gaol is Deleted Successfully" })
+                        } catch (err) {
+                            return res.send({ success: false, message: 'Goal Not Deleted' })
+                        }
+                    }else{
+                        return res.send({ success: false, message: "you can't delete this!" })
+                    }
+                
+                } catch (err) {
+                    return res.send({ success: false, message: 'Goal Not Found' })
+                }
             }
         }
 }
