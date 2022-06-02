@@ -1,25 +1,30 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require("path");
 require('dotenv').config()
+const multer = require('multer')
 const PORT = process.env.PORT || 9000
 
-// const multer = require('multer');
-// const upload = multer();
-// app.use(upload.array());
+const app = express();
+const http = require('http')
+const socketio = require('socket.io')
 
 
+const server = http.createServer(app)
+const io = socketio(server)
+
+app.set('socketio', io)
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.json())
+app.use(multer().array())
 // for parsing application/xwww-
 // app.use(bodyParser.urlencoded());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(
-    `mongodb+srv://${process.env.DB_PASSWORD}:ghayas@cluster0.knli1.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    `mongodb+srv://ghayas:${process.env.DB_PASSWORD}@cluster0.knli1.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -45,10 +50,12 @@ app.use('/api/v1', UserRouter)
 // app.use('/chk', checking)
 // app.use('/web', web)
 
-const server = app.listen(PORT,()=>{console.log('localhost:'+PORT)});
-const io = require('socket.io')(server);
-app.set('socketio', io)
+
 
 io.on('connection',(socket)=>{
     console.log(socket.id);
 })
+
+
+
+server.listen(PORT,()=>{console.log('localhost:'+PORT)});

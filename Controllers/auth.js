@@ -1,5 +1,6 @@
 const { jwtKey } =require("../Config/JwtConfig");
 const jwt = require('jsonwebtoken')
+const sha256 = require("js-sha256");
 // const jwtConfiq = require('../Config/jwtConfig')
 // const JwtKey = jwtConfiq.secret
 
@@ -30,22 +31,23 @@ const newCreatToken=(data,key)=>{
 const verifyToken=(token)=>{
     return new Promise((res,rej)=>{
         jwt.verify(token,jwtKey,(err,data)=>{
-                if(err){
-                    rej(err)
-                }else{
-                    res(data)
-                }
-        })
+            if(err){
+                rej(err)
+            }else{
+                res(data)
+            }
+    })
     })
 }
+
 const newverifyToken=(token,key)=>{
     return new Promise((res,rej)=>{
         jwt.verify(token,key,(err,data)=>{
-                if(err){
-                    rej(err)
-                }else{
-                    res(data)
-                }
+            if(err){
+                rej(err)
+            }else{
+                res(data)
+            }
         })
     })
 }
