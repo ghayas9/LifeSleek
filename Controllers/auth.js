@@ -87,7 +87,7 @@ const checkPasswordIsChange =(tokenPassword,userPassword,res)=>{
 }
 
 const pHash = (password)=>{
-    return password
+    return sha256(password + jwtKey)
 }
 
 module.exports ={

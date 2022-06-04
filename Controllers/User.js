@@ -116,7 +116,8 @@ module.exports = {
                        return res.send({ success: false, message: 'Server Issue', error: 'Error Code: U-C-R-115', err })
                     }
                 }
-            } catch {
+            } catch(err) {
+                console.log(err)
                return res.send({ success: false, message: 'Server Issue', error: 'Error Code: U-C-R-120', err })
             }
         }else{

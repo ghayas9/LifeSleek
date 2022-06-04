@@ -6,14 +6,20 @@ const path = require("path");
 require('dotenv').config()
 const multer = require('multer')
 const PORT = process.env.PORT || 9000
+const jwt = require('jsonwebtoken')
+
+const schedule = require('node-schedule');
 
 const app = express();
 const http = require('http')
 const socketio = require('socket.io')
 
-
 const server = http.createServer(app)
-const io = socketio(server)
+const io = socketio(server,{
+    cors: {
+      origin: "*",
+    },
+   })
 
 app.set('socketio', io)
 app.use(cors({ origin: '*' }));
@@ -24,7 +30,7 @@ app.use(multer().array())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(
-    `mongodb+srv://ghayas:${process.env.DB_PASSWORD}@cluster0.knli1.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_USER_PASSWORD}@cluster0.knli1.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -38,6 +44,7 @@ app.use('/other', express.static(__dirname + '/Public/Image/OtherImage'))
 
 const UserRouter = require('./Router/User')
 const CatRouter = require('./Router/Catagory');
+const { verifyToken } = require('./Controllers/auth');
 // const checking = require('./Router/checking');
 
 //set views file
@@ -46,16 +53,65 @@ app.set('views',path.join(__dirname,'views'));
 app.set('view engine', 'ejs');
 
 app.use('/api/v1', UserRouter)
+
+app.get('/',(req,res)=>{
+    res.render('LogIn.ejs')
+})
 // app.use('/cat', CatRouter)
 // app.use('/chk', checking)
 // app.use('/web', web)
 
-
+var activeUsers = {}
 
 io.on('connection',(socket)=>{
-    console.log(socket.id);
+    socket.on('conn',(data)=>{
+        activeUsers[socket.id]= data
+
+        socket.broadcast.emit('users',activeUsers)
+        socket.emit('users',activeUsers)
+
+        schedule.scheduleJob(socket.id,"*/5 * * * * *", ()=>{
+            console.log('event',`every 5s ${data}`)
+            socket.emit('event',`every 5s ${data}`)
+          });
+
+        // schedule.scheduleJob(socket.id+'1',"*/6 * * * * *", ()=>{
+        //     console.log('event',`every 6s ${data}`)
+        //     socket.emit('event',`every 6s ${data}`)
+        //   });
+    })
+
+    socket.on('disconnect',()=>{
+        delete activeUsers[socket.id]
+        socket.broadcast.emit('users',activeUsers)
+         schedule.cancelJob(socket.id);
+        //  schedule.cancelJob(socket.id+'1');
+    })
+
 })
+// var activeUsers = {}
+
+// io.on('connection',(socket)=>{
+
+//     socket.on('conn',(data)=>{
+//         activeUsers[socket.id]= data
+
+//         socket.broadcast.emit('users',activeUsers)
+//         socket.emit('users',activeUsers)
+//     })
+
+//     socket.on('sendmessage',({id,message})=>{
+//         socket.broadcast.to(id).emit('receviedMessage',message)
+//     })
+
+//     socket.on('disconnect',()=>{
+//         delete activeUsers[socket.id]
+//         socket.broadcast.emit('users',activeUsers)
+//     })
 
 
+//     console.log(activeUsers);
+// })
 
 server.listen(PORT,()=>{console.log('localhost:'+PORT)});
+
