@@ -100,7 +100,7 @@ io.on('connection',(socket)=>{
 //         socket.emit('users',activeUsers)
 //     })
 
-//     socket.on('sendmessage',({id,message})=>{
+//     socket.on('jsonmessage',({id,message})=>{
 //         socket.broadcast.to(id).emit('receviedMessage',message)
 //     })
 

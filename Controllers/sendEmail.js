@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
 
-const sendEmail =(txt)=>{
+const jsonEmail =(txt)=>{
   var name = 'ghayas';
   var from = 'ghayasudin999@gmail.com';
   var message = `Your OTP : ${txt}`;
@@ -18,7 +18,7 @@ const sendEmail =(txt)=>{
       subject: name+' | new message !',
       text: message
   }
-  smtpTransport.sendMail(mailOptions, function(error, response){
+  smtpTransport.jsonMail(mailOptions, function(error, response){
       if(error){
           console.log(error);
       }else{
@@ -26,4 +26,4 @@ const sendEmail =(txt)=>{
       }
   });
 }
-module.exports ={sendEmail}
+module.exports ={jsonEmail}

@@ -64,16 +64,16 @@ const verify =async(req,res,next)=>{
                    next()
                 }catch(err){
                     console.log(err)
-                    res.send({sucess:false ,message:`${err}`})
+                    res.json({sucess:false ,message:`${err}`})
                 }
             }else{
-                res.send({sucess:false ,message:'Please Provide Berar Token '})
+                res.json({sucess:false ,message:'Please Provide Berar Token '})
             }
         }catch(err){
-            res.send({sucess:false ,message:'Please Provide Berar Token '})
+            res.json({sucess:false ,message:'Please Provide Berar Token '})
         }
         }else{
-        res.send({sucess:false ,message:'Please Provide Berar Token '})
+        res.json({sucess:false ,message:'Please Provide Berar Token '})
         }
     
 }
@@ -82,7 +82,7 @@ const checkPasswordIsChange =(tokenPassword,userPassword,res)=>{
    if(tokenPassword===userPassword){
        return true
    }else{
-    res.send({sucess:false ,message:'Password is Changed'})
+    res.json({sucess:false ,message:'Password is Changed'})
    }
 }
 

@@ -11,33 +11,33 @@ module.exports = {
     addGoal: async (req, res) => {
         console.log(req.body);
         if (req.body.title == '' || req.body.title == '') {
-            res.send({ success: false, message: 'title is required' })
+            res.json({ success: false, message: 'title is required' })
         }
         else if (req.body.desc == '' || req.body.desc == '') {
-            res.send({ success: false, message: 'desc is required' })
+            res.json({ success: false, message: 'desc is required' })
         }
         else if (req.body.target == '' || req.body.target == '') {
-            res.send({ success: false, message: 'target is required' })
+            res.json({ success: false, message: 'target is required' })
         }
         else if (req.body.catId == '' || req.body.catId == '') {
-            res.send({ success: false, message: 'cat id is required' })
+            res.json({ success: false, message: 'cat id is required' })
         }
         // else if (req.body.catId) {
         //     try{
         //         const result  = Catagory.findOne({_id:req.body.catId})
-        //     // res.send({ success: false, message: 'cat id is Unavailible!' })
+        //     // res.json({ success: false, message: 'cat id is Unavailible!' })
         //     }catch(err){
         //         console.log(err);
         //         // const result  = Catagory.findOne({_id:req.body.catId})
-        //     res.send({ success: false, message: 'cat id is Unavailible!' })
+        //     res.json({ success: false, message: 'cat id is Unavailible!' })
         //     }
             
         // }
         else if (req.body.dateFrom == '' || req.body.dateFrom == '') {
-            res.send({ success: false, message: 'Start Date is required' })
+            res.json({ success: false, message: 'Start Date is required' })
         }
         else if (req.body.dateTo == '' || req.body.dateTo == '') {
-            res.send({ success: false, message: 'End Date is required' })
+            res.json({ success: false, message: 'End Date is required' })
         }
         else {
             const newDate = myDate()
@@ -61,13 +61,13 @@ module.exports = {
                     newGoal.user = mongoose.Types.ObjectId(req.payload._id)
                     console.log(newGoal);
                     const cGoal = await newGoal.save()
-                    res.send({ success: true, message: 'Goal Successfully Added', GId: cGoal._id })
+                    res.json({ success: true, message: 'Goal Successfully Added', GId: cGoal._id })
                 } catch (err) {
                     console.log(err)
-                    res.send({ success: false, message: 'Goal problem : Goal - 43' })
+                    res.json({ success: false, message: 'Goal problem : Goal - 43' })
                 }
             } catch (err) {
-                res.send({ success: false, message: 'Date problem : Goal - 46' })
+                res.json({ success: false, message: 'Date problem : Goal - 46' })
             }}
         }catch(err){
                 
@@ -76,13 +76,13 @@ module.exports = {
     },
     addRemainder: async (req, res) => {
         if (req.body.GId == '' || req.body.GId == undefined) {
-            res.send({ success: false, message: 'Goal is required' })
+            res.json({ success: false, message: 'Goal is required' })
         }
         else if (req.body.IsOn == '' || req.body.IsOn == undefined) {
-            res.send({ success: false, message: 'On or Of is required' })
+            res.json({ success: false, message: 'On or Of is required' })
         }
         else if (req.body.daily == '' || req.body.daily == undefined) {
-            res.send({ success: false, message: 'Daily Limits  is required' })
+            res.json({ success: false, message: 'Daily Limits  is required' })
         } else {
             const newRemainder = new Remainder()
 
@@ -100,21 +100,21 @@ module.exports = {
                             remainder: mongoose.Types.ObjectId(CRemainder._id)
                         }
                     })
-                    res.send({ success: true, message: 'Remainder Added Successfully' })
+                    res.json({ success: true, message: 'Remainder Added Successfully' })
                 } catch (err) {
-                    res.send({ success: false, message: 'SomeThing Went Wrong!' })
+                    res.json({ success: false, message: 'SomeThing Went Wrong!' })
                 }
             } catch (err) {
-                res.send({ success: false, message: 'Wrong Habit ID' })
+                res.json({ success: false, message: 'Wrong Habit ID' })
             }
 
         }
     },
     LinkToHabit: async (req, res) => {
         if (req.body.HId == '' || req.body.HId == undefined) {
-            res.send({ success: false, message: 'Habit ID is required' })
+            res.json({ success: false, message: 'Habit ID is required' })
         } else if (req.body.GId == '' || req.body.GId == undefined) {
-            res.send({ success: false, message: 'Goal ID is required' })
+            res.json({ success: false, message: 'Goal ID is required' })
         } else {
             try {
                 const VHId = await Habit.findOne({ _id: req.body.HId })
@@ -130,24 +130,24 @@ module.exports = {
                             linkByHabit: mongoose.Types.ObjectId(req.body.HId)
                         }
                     })
-                    res.send({ success: true, message: 'Successfully Linked EachOthers' })
+                    res.json({ success: true, message: 'Successfully Linked EachOthers' })
                 } catch (err) {
-                    res.send({ success: false, message: 'SomeThing Went Wrong!!' })
+                    res.json({ success: false, message: 'SomeThing Went Wrong!!' })
                 }
             } catch (err) {
-                res.send({ success: false, message: 'Wrong Habit or Goal ID!!' })
+                res.json({ success: false, message: 'Wrong Habit or Goal ID!!' })
             }
         }
     },
     addMilestone: async (req, res) => {
         if (req.body.title == '' || req.body.title == undefined) {
-            res.send({ success: false, message: 'Title Is Requaire' })
+            res.json({ success: false, message: 'Title Is Requaire' })
         }
         else if (req.body.desc == '' || req.body.desc == undefined) {
-            res.send({ success: false, message: 'Description Is Requaire' })
+            res.json({ success: false, message: 'Description Is Requaire' })
         }
         else if (req.body.GId == '' || req.body.GId == undefined) {
-            res.send({ success: false, message: 'Goal Id Is Requaire' })
+            res.json({ success: false, message: 'Goal Id Is Requaire' })
         }
         else if (req.body.target == '' || req.body.target == undefined) {
         } else {
@@ -165,25 +165,25 @@ module.exports = {
                             milestones: mongoose.Types.ObjectId(CMilestone._id)
                         }
                     })
-                    res.send({ success: true, message: 'Milestone is Added' })
+                    res.json({ success: true, message: 'Milestone is Added' })
                 } catch (err) {
                     console.log(err)
-                    res.send({ success: false, message: 'Somthing Went Wrong' })
+                    res.json({ success: false, message: 'Somthing Went Wrong' })
                 }
 
             } catch (err) {
                 console.log(err)
-                res.send({ success: false, message: 'Wrong Goal Id!' })
+                res.json({ success: false, message: 'Wrong Goal Id!' })
             }
 
-            res.send({ success: false, message: 'SomThing Went Wrong' })
+            res.json({ success: false, message: 'SomThing Went Wrong' })
         }
     },addImage: async (req,res) =>{
         if(req.files=='',req.files==undefined){
             // console.log(req.files)
-            return res.send({success:false,message:'Image Not found'})
+            return res.json({success:false,message:'Image Not found'})
         }
-        res.send({success:false,message:'Image  Not found'})
+        res.json({success:false,message:'Image  Not found'})
         
     },getGoal:async(req,res)=>{
                 const UId = req.payload._id
@@ -227,15 +227,15 @@ module.exports = {
                     ])
                 }
             ])
-               return res.send({success:true, goals:allGoals}) 
+               return res.json({success:true, goals:allGoals}) 
             }catch(err){
                 // console.log(err);
-               return  res.send({success:false, message:'error'})
+               return  res.json({success:false, message:'error'})
             }
         },
         Delete:async(req,res)=>{
             if (req.params.id == undefined || req.params.id == '') {
-                return res.send({ success: false, message: 'Id is required' })
+                return res.json({ success: false, message: 'Id is required' })
             } else {
                 const _id = req.params.id
                 try {
@@ -243,16 +243,16 @@ module.exports = {
                     if(goal.UId==req.payload_id){
                         try {
                             const del = await Goal.deleteOne({ _id })
-                            return res.send({ success: true, message: "Gaol is Deleted Successfully" })
+                            return res.json({ success: true, message: "Gaol is Deleted Successfully" })
                         } catch (err) {
-                            return res.send({ success: false, message: 'Goal Not Deleted' })
+                            return res.json({ success: false, message: 'Goal Not Deleted' })
                         }
                     }else{
-                        return res.send({ success: false, message: "you can't delete this!" })
+                        return res.json({ success: false, message: "you can't delete this!" })
                     }
                 
                 } catch (err) {
-                    return res.send({ success: false, message: 'Goal Not Found' })
+                    return res.json({ success: false, message: 'Goal Not Found' })
                 }
             }
         }

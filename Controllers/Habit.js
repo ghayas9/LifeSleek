@@ -39,26 +39,26 @@ module.exports ={
                     ])
                 }
             ])
-            res.send({success:true,habits})
+            res.json({success:true,habits})
         }catch(err){
-            res.send({success:false,message:'Something went wrong'})
+            res.json({success:false,message:'Something went wrong'})
         }
     },
     addHabit:async(req, res) => {
         if (req.body.title == '' || req.body.title == undefined) {
-            res.send({ success: false, message: 'title is required' })
+            res.json({ success: false, message: 'title is required' })
         }
         else if (req.body.desc == '' || req.body.desc == undefined) {
-            res.send({ success: false, message: 'desc is required' })
+            res.json({ success: false, message: 'desc is required' })
         }
         else if (req.body.dateFrom == '' || req.body.dateFrom == undefined) {
-            res.send({ success: false, message: 'Start Date is required' })
+            res.json({ success: false, message: 'Start Date is required' })
         }
         else if (req.body.dateTo == '' || req.body.dateTo == undefined) {
-            res.send({ success: false, message: 'End Date is required' })
+            res.json({ success: false, message: 'End Date is required' })
         }
         else if (req.body.rep == '' || req.body.rep == undefined) {
-            res.send({ success: false, message: 'repeation is required' })
+            res.json({ success: false, message: 'repeation is required' })
         }
         else {
             const newDate = myDate()
@@ -74,25 +74,25 @@ module.exports ={
                     newHabit.date = mongoose.Types.ObjectId(cdate._id)
                     newHabit.user = mongoose.Types.ObjectId(req.payload._id)
                     const cHabit = await newHabit.save()
-                    res.send({ success: true, message: 'Habit Successfully Added', HId: cHabit._id })
+                    res.json({ success: true, message: 'Habit Successfully Added', HId: cHabit._id })
                 } catch (err) {
                     console.log(err)
-                    res.send({ success: false, message: 'Habit problem : G - 43' })
+                    res.json({ success: false, message: 'Habit problem : G - 43' })
                 }
             } catch (err) {
-                res.send({ success: false, message: 'Date problem : G - 46' })
+                res.json({ success: false, message: 'Date problem : G - 46' })
             }
         }
     },
     addRemainder: async (req, res) => {
         if (req.body.HId == '' || req.body.HId == undefined) {
-            res.send({ success: false, message: 'Habit is required' })
+            res.json({ success: false, message: 'Habit is required' })
         }
         else if (req.body.IsOn == '' || req.body.IsOn == undefined) {
-            res.send({ success: false, message: 'On or Of is required' })
+            res.json({ success: false, message: 'On or Of is required' })
         }
         else if (req.body.daily == '' || req.body.daily == undefined) {
-            res.send({ success: false, message: 'Daily Limits  is required' })
+            res.json({ success: false, message: 'Daily Limits  is required' })
         } else {
             const newRemainder = new Remainder()
     
@@ -110,12 +110,12 @@ module.exports ={
                             remainder: mongoose.Types.ObjectId(CRemainder._id)
                         }
                     })
-                    res.send({ success: true, message: 'Remainder Added Successfully' })
+                    res.json({ success: true, message: 'Remainder Added Successfully' })
                 } catch (err) {
-                    res.send({ success: false, message: 'SomeThing Went Wrong!' })
+                    res.json({ success: false, message: 'SomeThing Went Wrong!' })
                 }
             } catch (err) {
-                res.send({ success: false, message: 'Wrong Habit ID' })
+                res.json({ success: false, message: 'Wrong Habit ID' })
             }
     
         }
@@ -123,9 +123,9 @@ module.exports ={
     ,
     LinkToGoal:async(req, res) => {
         if (req.body.HId == '' || req.body.HId == undefined) {
-            res.send({ success: false, message: 'Habit ID is required' })
+            res.json({ success: false, message: 'Habit ID is required' })
         } else if (req.body.GId == '' || req.body.GId == undefined) {
-            res.send({ success: false, message: 'Goal ID is required' })
+            res.json({ success: false, message: 'Goal ID is required' })
         } else {
             try {
                 const VHId = await Habit.findOne({ _id: req.body.HId })
@@ -141,18 +141,18 @@ module.exports ={
                             linkByHabit: mongoose.Types.ObjectId(req.body.HId)
                         }
                     })
-                    res.send({ success: true, message: 'Successfully Linked EachOthers' })
+                    res.json({ success: true, message: 'Successfully Linked EachOthers' })
                 } catch (err) {
-                    res.send({ success: false, message: 'SomeThing Went Wrong!!' })
+                    res.json({ success: false, message: 'SomeThing Went Wrong!!' })
                 }
             } catch (err) {
-                res.send({ success: false, message: 'Wrong Habit or Goal ID!!' })
+                res.json({ success: false, message: 'Wrong Habit or Goal ID!!' })
             }
         }
     },
     addImage: async (req,res) =>{
         if(req.body.HId==''||req.body.UId==undefined){
-            res.send({ success: false, message: 'HId is requaired' })
+            res.json({ success: false, message: 'HId is requaired' })
         }
         else{ 
             // const host = 'localhost:9000'
@@ -168,15 +168,15 @@ module.exports ={
                 //         images: `${req.body.files}` 
                 //     }
                 // })
-                res.send({ success: true, message: 'Image added su.....ly',Image:img})
+                res.json({ success: true, message: 'Image added su.....ly',Image:img})
             }catch(err){
-                res.send({ success: false, message: 'Wrong HId',error:err })
+                res.json({ success: false, message: 'Wrong HId',error:err })
             }
         }
     },
     Delete:async(req,res)=>{
         if (req.params.id == undefined || req.params.id == '') {
-            return res.send({ success: false, message: 'Id is required' })
+            return res.json({ success: false, message: 'Id is required' })
         } else {
             const _id = req.params.id
             try {
@@ -184,16 +184,16 @@ module.exports ={
                 if(habit.UId==req.payload_id){
                     try {
                         const del = await Habit.deleteOne({ _id })
-                        return res.send({ success: true, message: "Habit is Deleted Successfully" })
+                        return res.json({ success: true, message: "Habit is Deleted Successfully" })
                     } catch (err) {
-                        return res.send({ success: false, message: 'Habit Not Deleted' })
+                        return res.json({ success: false, message: 'Habit Not Deleted' })
                     }
                 }else{
-                    return res.send({ success: false, message: "you can't delete this!" })
+                    return res.json({ success: false, message: "you can't delete this!" })
                 }
             
             } catch (err) {
-                return res.send({ success: false, message: 'Habit Not Found' })
+                return res.json({ success: false, message: 'Habit Not Found' })
             }
         }
     }

@@ -26,4 +26,6 @@ const appointment = require('./Appointment')
 //all  //add  //delete
 router.use('/appointment',appointment)
 
+
+
 module.exports = router.use('/user',router)
